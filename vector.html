@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VECTOR - Análisis de Rendimiento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #050811;
+            color: #00f3ff;
+            font-family: monospace;
+        }
+        .neon-border {
+            border: 1px solid #00f3ff;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+        .neon-button {
+            background: linear-gradient(90deg, #00f3ff, #00ff66);
+            color: #050811;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+            transition: all 0.3s ease;
+        }
+        .neon-button:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.8);
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="p-6 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <header class="neon-border p-6 rounded-xl bg-black/40 backdrop-blur mb-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-[#00f3ff] to-[#00ff66]">
+                    VECTOR // V.01
+                </h1>
+                <p class="text-xs text-gray-400 mt-1">SISTEMA DE ANÁLISIS DE RENDIMIENTO - FÚTBOL AMATEUR</p>
+            </div>
+            <div class="text-right">
+                <span class="px-3 py-1 text-xs rounded-full bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/30 animate-pulse">
+                    ● SISTEMA ACTIVO (NEON DB)
+                </span>
+            </div>
+        </header>
+
+        <!-- Formulario de Registro Manual -->
+        <main class="neon-border p-6 rounded-xl bg-black/60">
+            <h2 class="text-xl font-bold mb-4 text-[#00ff66]">REGISTRO DE SESIÓN & ESTADÍSTICAS</h2>
+            
+            <form id="vectorForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">ID del Jugador</label>
+                    <input type="number" id="id_jugador" value="1" class="w-full bg-black/80 neon-border p-2 rounded text-white" required>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">Tipo de Sesión</label>
+                    <select id="tipo" class="w-full bg-black/80 neon-border p-2 rounded text-white">
+                        <option value="partido">Partido</option>
+                        <option value="entrenamiento">Entrenamiento</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">Fecha</label>
+                    <input type="date" id="fecha" class="w-full bg-black/80 neon-border p-2 rounded text-white" required>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">Minutos Jugados</label>
+                    <input type="number" id="minutos_jugados" value="90" class="w-full bg-black/80 neon-border p-2 rounded text-white" required>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">Pases Realizados</label>
+                    <input type="number" id="pases_realizados" value="40" class="w-full bg-black/80 neon-border p-2 rounded text-white" required>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">Pases Completados</label>
+                    <input type="number" id="pases_completados" value="34" class="w-full bg-black/80 neon-border p-2 rounded text-white" required>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">Goles</label>
+                    <input type="number" id="goles" value="1" class="w-full bg-black/80 neon-border p-2 rounded text-white" required>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">Distancia (km)</label>
+                    <input type="number" step="0.1" id="distancia_km" value="8.5" class="w-full bg-black/80 neon-border p-2 rounded text-white" required>
+                </div>
+
+                <div class="md:col-span-2 mt-4">
+                    <button type="submit" class="w-full py-3 rounded-lg neon-button text-black uppercase tracking-wider">
+                        Registrar Sesión y Transmitir a N8N
+                    </button>
+                </div>
+            </form>
+
+            <div id="resultadoMensaje" class="mt-4 p-3 rounded hidden text-center font-bold"></div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('vectorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = e.target.querySelector('button');
+            const msgBox = document.getElementById('resultadoMensaje');
+            btn.textContent = "TRANSMITIENDO A N8N...";
+            
+            const payload = {
+                id_jugador: Number(document.getElementById('id_jugador').value),
+                tipo: document.getElementById('tipo').value,
+                fecha: document.getElementById('fecha').value,
+                minutos_jugados: Number(document.getElementById('minutos_jugados').value),
+                pases_realizados: Number(document.getElementById('pases_realizados').value),
+                pases_completados: Number(document.getElementById('pases_completados').value),
+                goles: Number(document.getElementById('goles').value),
+                asistencias: 0,
+                distancia_km: Number(document.getElementById('distancia_km').value),
+                sprints: 12,
+                recuperaciones: 5,
+                tiros_realizados: 3,
+                tiros_puerta: 2,
+                duelos_ganados: 6,
+                duelos_disputados: 10,
+                esfuerzo_percibido: 8,
+                fatiga_percibida: 7
+            };
+
+            try {
+                await fetch('http://localhost:5678/webhook/69391165-215f-47e2-b731-5f948f15a771', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                msgBox.className = "mt-4 p-3 rounded text-center font-bold bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]";
+                msgBox.textContent = "¡Datos transmitidos exitosamente hacia n8n y Neon!";
+            } catch (error) {
+                msgBox.className = "mt-4 p-3 rounded text-center font-bold bg-red-500/20 text-red-400 border border-red-500";
+                msgBox.textContent = "Error al conectar con n8n. Revisa la consola.";
+            } finally {
+                msgBox.classList.remove('hidden');
+                btn.textContent = "Registrar Sesión y Transmitir a N8N";
+            }
+        });
+    </script>
+</body>
+</html>
